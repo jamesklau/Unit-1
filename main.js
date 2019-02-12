@@ -1,104 +1,48 @@
-/* Stylesheet by James R Klau, 2019 */
+function jQueryAjax(){
+    //define a variable to hold the data
+    var mydata;
+	
 
-//initialize function called when the script loads
-function initialize(){
-    cities();
-};
+    //basic jQuery ajax method
+    $.ajax("data/Megacities.geojson", {
+        dataType: "json",
+        success: function(response){
+			
+			
+            mydata = response;
+			
 
-//function to create a table with cities and their populations
-function cities(){
-    //define two arrays for cities and population
-    var cityPop = [
-        { 
-            city: 'New York City: ',
-            population: 8623000
-        },
-        {
-            city: 'Boston: ',
-            population: 685094
-        },
-        {
-            city: 'Philadephia: ',
-            population: 1581000
-        },
-        {
-            city: 'Washington DC: ',
-            population: 693972
+            //check the data
+            console.log(mydata);
+			$('#mydiv').append('GeoJSON data: ' + JSON.stringify(mydata));
         }
-    ];
-
-    //append the table element to the div
-    $("#mydiv").append("<table>");
-
-    //append a header row to the table
-    $("table").append("<tr>");
-
-    //add the "City" and "Population" columns to the header row
-    $("tr").append("<th>City</th><th>Population</th>");
-
-    //loop to add a new row for each city
-    for (var i = 0; i < cityPop.length; i++){
-        //assign longer html strings to a variable
-        var rowHtml = "<tr><td>" + cityPop[i].city + "</td><td>" + cityPop[i].population + "</td></tr>";
-        //add the row's html string to the table
-		$("table").append(rowHtml);
-    };
-	    //Added at Example 3.5 line 44...
-    //get the div id
-    var theid = $('#mydiv').attr('id');
-
-    //theid is 'mydiv'; add it as text to the div
-    $('#mydiv').append(theid);
-
-    //add the class 'foo' to the div
-    $('#mydiv').attr('class', 'foo');
-
-    //Check your work with the Inspector!
-	    //change the text color
-    $('#mydiv').css('color', 'red');
-
-    //change the text size and alignment
-    $('#mydiv').css({
-        'font-size': '2em',
-        'text-align': 'left'
     });
 
-    //get the text color and add it as text to the div
-    var thecolor = $('#mydiv').css('color');
-    $('#mydiv').append(thecolor);
+    //check the data
+    console.log(mydata);
+};
 
-    //fooled ya! thecolor is rgb(255, 0, 0), the CSS interpreter's translation of the keyword 'red'
+function debugCallback(response){
 	
-	    //iterate over each script element and add each one's source url as text to the div
-    $('script').each(function(){
-        var thesource = $(this).attr('src');
-        $('#mydiv').append(thesource);
-    });
-	
-	    //click listener with anonymous handler function
-    $('table').on('click', function(){
-        alert('Madison Rocks! Go Badgers!');
-    });
+	$('#mydiv').append('GeoJSON data: ' + JSON.stringify(mydata));
+};
 
-    //alias method for the click event listener
-    $('table').click(function(){
-        alert('Visit Superior and see the big lake!');
-    });
-
-    //named handler function for removable listener
-    function clickme(){
-        alert('Yeah Green Bay! Go Packers!');
-    };
-
-    //add the event listener
-    $('table').on('click', clickme);
-
-    //remove the event listener
-    $('table').off('click', clickme);
+function debugAjax(){
 	
 	
+	
+
+	$.ajax("data/MegaCities.geojson", {
+		dataType: "json",
+		success: function(response){
+			
+			debugCallback(mydata);
+		}
+	});
+
+	$('#mydiv').append('<br>GeoJSON data:<br>' + JSON.stringify(mydata));
 };
 
 
-//call the initialize function when the document has loaded
-$(document).ready(initialize);
+
+$(document).ready(jQueryAjax);
